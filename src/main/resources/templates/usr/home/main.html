@@ -78,7 +78,7 @@
         .city.sejong:hover { background-color: #1976D2; color: white; }
 
         .body {
-            width: 1200px;
+            width: 1052px;
             height: 700px;
             padding: 30px;
             background-color: #ffffff;
@@ -101,7 +101,7 @@
 
         .attraction {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(466px, 1fr));
             gap: 20px;
             height: 500px;
         }
@@ -110,6 +110,7 @@
             background-color: #f9fafb;
             padding: 5px;
             border-radius: 10px;
+            width: 466px;
             height: 235px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -120,11 +121,6 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
 
-        .attraction_addr1 {
-            font-size: 1rem;
-            color: #666;
-        }
-
         .attraction-item img {
             width: 100%;
             border-radius: 8px;
@@ -133,7 +129,7 @@
 
         .attraction-item p {
             color: #333;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .pagination{
@@ -180,23 +176,23 @@
 <div class="title">국내 여행지 정보 어디든!</div>
 <div class="flex">
     <div class="menu">
-        <button class="city seoul" data-city="Seoul">서울</button>
-        <button class="city gyeonggi" data-city="Gyeonggi-do">경기</button>
-        <button class="city busan" data-city="Busan">부산</button>
-        <button class="city gyeongsangnamdo" data-city="Gyeongsangnam-do">경남</button>
-        <button class="city incheon" data-city="Incheon">인천</button>
-        <button class="city gyeongsangbukdo" data-city="Gyeongsangbuk-do">경북</button>
-        <button class="city daegu" data-city="Daegu">대구</button>
-        <button class="city jeonnam" data-city="Jeollanam-do">전남</button>
-        <button class="city jeonbuk" data-city="Jeollabuk-do">전북</button>
-        <button class="city chungnam" data-city="Chungcheongnam-do">충남</button>
-        <button class="city chungbuk" data-city="Chungcheongbuk-do">충북</button>
-        <button class="city gangwon" data-city="Gangwon-do">강원</button>
-        <button class="city gwangju" data-city="Gwangju">광주</button>
-        <button class="city daejeon" data-city="Daejeon">대전</button>
-        <button class="city ulsan" data-city="Ulsan">울산</button>
-        <button class="city jeju" data-city="Jeju-do">제주</button>
-        <button class="city sejong" data-city="Sejong">세종</button>
+        <button class="city seoul" data-city="Seoul 126.9784 37.5665">서울</button>
+        <button class="city gyeonggi" data-city="Gyeonggi-do 127.1260 37.4138">경기</button>
+        <button class="city busan" data-city="Busan 129.0756 35.1796">부산</button>
+        <button class="city gyeongsangnamdo" data-city="Gyeongsangnam-do 128.2619 35.4606">경남</button>
+        <button class="city incheon" data-city="Incheon 126.7052 37.4563">인천</button>
+        <button class="city gyeongsangbukdo" data-city="Gyeongsangbuk-do 128.8889 36.4919">경북</button>
+        <button class="city daegu" data-city="Daegu 128.6014 35.8714">대구</button>
+        <button class="city jeonnam" data-city="Jeollanam-do 126.4631 34.8161">전남</button>
+        <button class="city jeonbuk" data-city="Jeollabuk-do 127.1088 35.7175">전북</button>
+        <button class="city chungnam" data-city="Chungcheongnam-do 126.7052 36.6589">충남</button>
+        <button class="city chungbuk" data-city="Chungcheongbuk-do 127.6914 36.6358">충북</button>
+        <button class="city gangwon" data-city="Gangwon-do 128.1555 37.8228">강원</button>
+        <button class="city gwangju" data-city="Gwangju 126.8514 35.1595">광주</button>
+        <button class="city daejeon" data-city="Daejeon 127.3845 36.3504">대전</button>
+        <button class="city ulsan" data-city="Ulsan 129.3114 35.5390">울산</button>
+        <button class="city jeju" data-city="Jeju-do 126.5312 33.4996">제주</button>
+        <button class="city sejong" data-city="Sejong 127.2891 36.4801">세종</button>
     </div>
     <div class="body">
         <div class="flex justify-between">
@@ -219,96 +215,41 @@
     </div>
 </div>
 <script>
-    let currentPage = 1;  // 현재 페이지 번호
+    let currentPage = 1;
+    let cityNameKorean = '';
+    let mapX = '';
+    let mapY = '';
+
 
     const openweathermapAPIkey = `[[${openweathermapAPIkey}]]`;
     const attractionAPIkey = encodeURIComponent(`[[${attractionAPIkey}]]`);
 
     $(".city").click(function () {
-        console.log("City clicked:", $(this).text());
         loding();
+        currentPage = 1;
+        cityNameKorean = $(this).text();
+        var datas = $(this).data("city").split(" ");
+        var cityNameEnglish = datas[0];
+        mapX = datas[1];
+        mapY = datas[2];
 
-        var cityName = $(this).data("city");
-        var weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${openweathermapAPIkey}&lang=kr&units=metric`;
-        var encodedCityName = encodeURIComponent($(this).text());
-        var attractionApiUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?numOfRows=6&pageNo=${currentPage}&MobileOS=ETC&MobileApp=a&_type=json&arrange=R&keyword=${encodedCityName}&serviceKey=${attractionAPIkey}`;
+        console.log("cityNameEnglish : "+cityNameEnglish);
+        console.log("mapX : "+mapX);
+        console.log("mapY : "+mapY);
 
-        console.log("Weather API URL:", weatherApiUrl);
-        console.log("Attraction API URL:", attractionApiUrl);
+        $(".cityName").text(cityNameKorean + " 관광지");
+        $(".current-page").text(currentPage);
 
-        $(".cityName").text($(this).text() + " 관광지");
-
-        $.when(
-            $.ajax({
-                url: weatherApiUrl,
-                method: "GET",
-            }),
-            $.ajax({
-                url: attractionApiUrl,
-                method: "GET",
-            })
-        ).then(
-            function (weatherResponse, attractionResponse) {
-                console.log("Weather API Response:", weatherResponse);
-                console.log("Attraction API Response:", attractionResponse);
-
-                // 날씨 정보 처리
-                try {
-                    var weather = weatherResponse[0].weather[0].description;
-                    var temperature = weatherResponse[0].main.temp;
-                    var humidity = weatherResponse[0].main.humidity;
-
-                    $(".weather").html(`
-                    <p class="weather-item">날씨 : ${weather}</p>
-                    <p class="weather-item">온도 : ${temperature}°C</p>
-                    <p class="weather-item">습도 : ${humidity}%</p>
-                `);
-                } catch (error) {
-                    console.error("Weather Data Parsing Error:", error);
-                    $(".weather").html("<p>날씨 정보를 처리하는 중 오류가 발생했습니다.</p>");
-                }
-
-                // 관광지 정보 처리
-                try {
-                    var items = attractionResponse[0].response.body.items.item;
-
-                    if (items && items.length > 0) {
-                        var attractionHtml = "";
-                        items.forEach(function (attraction) {
-                            attractionHtml += `
-                            <div class="attraction-item">
-                                <p class="attraction_addr1">${attraction.title}</p>
-                                <p class="attraction_addr1"><strong>주소:</strong> ${attraction.addr1 || "주소 정보 없음"}</p>
-                                <img src="${attraction.firstimage || "../NoPhoto.png"}" alt="${attraction.title}" style="height: 180px"/>
-                            </div>
-                        `;
-                        });
-                        $(".attraction").html(attractionHtml);
-                        $(".pagination").fadeIn();
-                    } else {
-                        console.warn("No attractions found for:", encodedCityName);
-                        $(".attraction").html("<p>관광지 정보가 없습니다.</p>");
-                    }
-                } catch (error) {
-                    console.error("Attraction Data Parsing Error:", error);
-                    $(".attraction").html("<p>관광지 정보를 처리하는 중 오류가 발생했습니다.</p>");
-                }
-            },
-            function (error) {
-                console.error("AJAX Request Failed:", error);
-                $(".weather").html("<p>날씨 정보를 가져오는 데 실패했습니다. 나중에 다시 시도해 주세요.</p>");
-                $(".attraction").html("<p>관광지 정보를 가져오는 데 실패했습니다. 나중에 다시 시도해 주세요.</p>");
-            }
-        );
+        getWeatherData(cityNameEnglish);
+        getAttractionData(currentPage, cityNameKorean, mapX, mapY);
     });
 
-    // 이전 페이지 버튼 클릭 시
     $(".prev-page").click(function() {
         if (currentPage > 1) {
             loding();
             currentPage--;
             $(".current-page").text(currentPage);
-            $(".city").trigger("click");
+            getAttractionData(currentPage, cityNameKorean, mapX, mapY);
         }
     });
 
@@ -316,14 +257,73 @@
         loding();
         currentPage++;
         $(".current-page").text(currentPage);
-        $(".city").trigger("click");
+        getAttractionData(currentPage, cityNameKorean, mapX, mapY);
     });
 
-    function loding(){
+    function getWeatherData(cityName) {
+        var weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${openweathermapAPIkey}&lang=kr&units=metric`;
+
+        $.ajax({
+            url: weatherApiUrl,
+            method: "GET",
+        }).done(function (weatherResponse) {
+            try {
+                var weather = weatherResponse.weather[0].description;
+                var temperature = weatherResponse.main.temp;
+                var humidity = weatherResponse.main.humidity;
+
+                $(".weather").html(`
+                    <p class="weather-item">날씨 : ${weather}</p>
+                    <p class="weather-item">온도 : ${temperature}°C</p>
+                    <p class="weather-item">습도 : ${humidity}%</p>
+                `);
+            } catch (error) {
+                $(".weather").html("<p>날씨 정보를 처리하는 중 오류가 발생했습니다.</p>");
+            }
+        }).fail(function () {
+            $(".weather").html("<p>날씨 정보를 가져오는 데 실패했습니다. 나중에 다시 시도해 주세요.</p>");
+        });
+    }
+
+    function getAttractionData(page, cityName, mapX, mapY) {
+        var attractionApiUrl = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?numOfRows=4&pageNo=${page}&MobileOS=ETC&MobileApp=AppTest&_type=json&arrange=D&mapX=${mapX}&mapY=${mapY}&radius=5000&serviceKey=${attractionAPIkey}`;
+
+        $.ajax({
+            url: attractionApiUrl,
+            method: "GET",
+        }).done(function (attractionResponse) {
+            try {
+                var items = attractionResponse.response.body.items.item;
+
+                if (items && items.length > 0) {
+                    var attractionHtml = "";
+                    items.forEach(function (attraction) {
+                        attractionHtml += `
+                            <div class="attraction-item">
+                                <p class="attraction_addr1 font-bold">${attraction.title}</p>
+                                <p class="attraction_addr1">주소 : ${attraction.addr1 || "주소 정보 없음"}</p>
+                                <img src="${attraction.firstimage || "../NoPhoto.png"}" alt="${attraction.title}" style="height: 180px"/>
+                            </div>
+                        `;
+                    });
+                    $(".attraction").html(attractionHtml);
+                    $(".pagination").fadeIn();
+                } else {
+                    $(".attraction").html("<p>관광지 정보가 없습니다.</p>");
+                }
+            } catch (error) {
+                $(".attraction").html("<p>관광지 정보를 처리하는 중 오류가 발생했습니다.</p>");
+            }
+        }).fail(function () {
+            $(".attraction").html("<p>관광지 정보를 가져오는 데 실패했습니다. 나중에 다시 시도해 주세요.</p>");
+        });
+    }
+
+    function loding() {
         $(".loadingScreen").show();
 
         setTimeout(function() {
-            $(".loadingScreen").fadeOut();  // 로딩바 숨기기
+            $(".loadingScreen").fadeOut();
         }, 3000);
     }
 </script>
