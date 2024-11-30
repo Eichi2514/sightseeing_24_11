@@ -2,9 +2,260 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Sightseeing</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+
+        .title {
+            padding: 10px;
+            font-size: 2rem;
+            margin: auto;
+            border-bottom: 2px solid #dadada;
+            display: inline-block;
+        }
+
+        .menu {
+            margin: auto;
+            width: 825px;
+            padding: 50px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .city {
+            width: 135px;
+            display: inline-block;
+            padding: 10px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 1s ease;
+        }
+
+        .city:hover {
+            color: white;
+            transform: translateY(-8px);
+        }
+
+        .city.seoul:hover {
+            background: linear-gradient(135deg, #388E3C, #66BB6A);
+        }
+
+        .city.gyeonggi:hover {
+            background: linear-gradient(135deg, #81C784, #4CAF50);
+        }
+
+        .city.busan:hover {
+            background: linear-gradient(135deg, #FF5722, #FF7043);
+        }
+
+        .city.gyeongsangnamdo:hover {
+            background: linear-gradient(135deg, #FF9800, #FFEB3B);
+        }
+
+        .city.incheon:hover {
+            background: linear-gradient(135deg, #009688, #00796B);
+        }
+
+        .city.gyeongsangbukdo:hover {
+            background: linear-gradient(135deg, #FF9800, #FFB74D);
+        }
+
+        .city.daegu:hover {
+            background: linear-gradient(135deg, #8E24AA, #AB47BC);
+        }
+
+        .city.jeonnam:hover {
+            background: linear-gradient(135deg, #2C6E1F, #388E3C);
+        }
+
+        .city.jeonbuk:hover {
+            background: linear-gradient(135deg, #673AB7, #7E57C2);
+        }
+
+        .city.chungnam:hover {
+            background: linear-gradient(135deg, #F44336, #FF7043);
+        }
+
+        .city.chungbuk:hover {
+            background: linear-gradient(135deg, #8BC34A, #AED581);
+        }
+
+        .city.gangwon:hover {
+            background: linear-gradient(135deg, #1E88E5, #42A5F5);
+        }
+
+        .city.gwangju:hover {
+            background: linear-gradient(135deg, #26A69A, #4DB6AC);
+        }
+
+        .city.daejeon:hover {
+            background: linear-gradient(135deg, #FF5722, #FF7043);
+        }
+
+        .city.ulsan:hover {
+            background: linear-gradient(135deg, #7B1FA2, #9C27B0);
+        }
+
+        .city.jeju:hover {
+            background: linear-gradient(135deg, #4CAF50, #00C853);
+        }
+
+        .city.sejong:hover {
+            background: linear-gradient(135deg, #1976D2, #2196F3);
+        }
+
+        .body{
+            margin: auto;
+            width: 825px;
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+
+        .weather {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .attraction {
+            margin-top: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 725px;
+            height: 45vh;
+            display: flex;
+            flex-wrap: wrap;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: auto;
+        }
+
+        .attraction::-webkit-scrollbar {
+            width: 8px;  /* 세로 스크롤바 두께 */
+            height: 8px; /* 가로 스크롤바 두께 */
+        }
+
+        .attraction::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .attraction::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .attraction::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .attraction-item{
+            padding: 2px;
+        }
+
+        .attraction_addr1{
+            font-size: 10px;
+        }
+    </style>
 </head>
 <body>
-메인
+<div class="title">국내 여행지 정보 어디든!</div>
+<div class="menu">
+    <button class="city seoul" data-city="Seoul">서울</button>
+    <button class="city gyeonggi" data-city="Gyeonggi-do">경기</button>
+    <button class="city busan" data-city="Busan">부산</button>
+    <button class="city gyeongsangnamdo" data-city="Gyeongsangnam-do">경남</button>
+    <button class="city incheon" data-city="Incheon">인천</button>
+    <button class="city gyeongsangbukdo" data-city="Gyeongsangbuk-do">경북</button>
+    <button class="city daegu" data-city="Daegu">대구</button>
+    <button class="city jeonnam" data-city="Jeollanam-do">전남</button>
+    <button class="city jeonbuk" data-city="Jeollabuk-do">전북</button>
+    <button class="city chungnam" data-city="Chungcheongnam-do">충남</button>
+    <button class="city chungbuk" data-city="Chungcheongbuk-do">충북</button>
+    <button class="city gangwon" data-city="Gangwon-do">강원도</button>
+    <button class="city gwangju" data-city="Gwangju">광주</button>
+    <button class="city daejeon" data-city="Daejeon">대전</button>
+    <button class="city ulsan" data-city="Ulsan">울산</button>
+    <button class="city jeju" data-city="Jeju-do">제주</button>
+    <button class="city sejong" data-city="Sejong">세종</button>
+</div>
+<div class="body">
+    <div class="flex justify-between">
+        <div class="cityName flex justify-center"></div>
+        <div class="weather"></div>
+    </div>
+    <div class="attraction">
+
+    </div>
+</div>
+
+<script>
+    const openweathermapAPIkey = `[[${openweathermapAPIkey}]]`;
+    const attractionAPIkey = encodeURIComponent(`[[${attractionAPIkey}]]`);
+
+    $(".city").click(function() {
+        var cityName = $(this).data("city");
+        var weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${openweathermapAPIkey}&lang=kr&units=metric`; // 섭씨로 요청
+        var encodedCityName = encodeURIComponent($(this).text());
+        var attractionApiUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?numOfRows=999&pageNo=1&MobileOS=ETC&MobileApp=a&_type=json&arrange=R&keyword=${encodedCityName}&serviceKey=${attractionAPIkey}`;
+
+        $(".cityName").text($(this).text() + ' 관광지');
+
+        $.when(
+            $.ajax({
+                url: weatherApiUrl,
+                method: "GET"
+            }),
+            $.ajax({
+                url: attractionApiUrl,
+                method: "GET"
+            })
+        ).then(
+            function(weatherResponse, attractionResponse) {
+
+                var weather = weatherResponse[0].weather[0].description;
+                var temperature = weatherResponse[0].main.temp;
+                var humidity = weatherResponse[0].main.humidity;
+
+                $(".weather").html(`
+                    <p>날씨 : ${weather}</p>
+                    <p>기온 : ${temperature}°C</p>
+                    <p>습도 : ${humidity}%</p>
+                `);
+
+                var items = attractionResponse[0].response.body.items.item;
+                var attractionHtml = '';
+                if (items && items.length > 0) {
+                    items.forEach(function(attraction) {
+                        attractionHtml += `
+                            <div class="attraction-item">
+                                <p class="attraction_addr1">${attraction.title}</p>
+                                <p class="attraction_addr1"><strong>주소 :</strong> ${attraction.addr1 || '주소 정보 없음'}</p>
+                                <img src="${attraction.firstimage || '../NoPhoto.png'}" alt="${attraction.title}" style="width: 350px; height: 250px; border-radius: 8px;" />
+                            </div>
+                        `;
+                    });
+                    $(".attraction").html(attractionHtml);
+                } else {
+                    $(".attraction").html("<p>관광지 정보가 없습니다.</p>");
+                }
+            },
+            function() {
+                $(".weather").html("<p>날씨 정보를 가져오는 데 실패했습니다. 나중에 다시 시도해 주세요.</p>");
+                $(".attraction").html("<p>관광지 정보를 가져오는 데 실패했습니다. 나중에 다시 시도해 주세요.</p>");
+            }
+        );
+    });
+</script>
 </body>
 </html>
