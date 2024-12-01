@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>국내 여행지 정보 어디든!</title>
+    <title>Froad</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
     <style>
@@ -19,9 +19,9 @@
         }
 
         .title {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: bold;
-            margin: 20px 0;
+            margin: 15px 0;
             color: #4CAF50;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
@@ -139,6 +139,20 @@
             justify-content: space-between;
         }
 
+        .menuInstructionText{
+            width: 992px;
+            height: 640px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: absolute;
+            word-break: keep-all;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
         .loadingScreen{
             display: none;
             position: absolute;
@@ -173,7 +187,7 @@
     </style>
 </head>
 <body>
-<div class="title">국내 여행지 정보 어디든!</div>
+<div class="title">국내 여행지 정보 Froad!</div>
 <div class="flex">
     <div class="menu">
         <button class="city seoul" data-city="Seoul 126.9784 37.5665">서울</button>
@@ -195,6 +209,7 @@
         <button class="city sejong" data-city="Sejong 127.2891 36.4801">세종</button>
     </div>
     <div class="body">
+        <div class="menuInstructionText">좌측 메뉴에서 원하는 지역을 선택하시면 해당 지역 관광 정보를 확인할 수 있습니다.</div>
         <div class="flex justify-between">
             <div class="cityName"></div>
             <div class="weather flex gap-2"></div>
@@ -225,6 +240,7 @@
     const attractionAPIkey = encodeURIComponent(`[[${attractionAPIkey}]]`);
 
     $(".city").click(function () {
+        $(".menuInstructionText").fadeOut();
         loding();
         currentPage = 1;
         cityNameKorean = $(this).text();
@@ -299,7 +315,7 @@
                     var attractionHtml = "";
                     items.forEach(function (attraction) {
                         attractionHtml += `
-                            <div class="attraction-item">
+                            <div class="attraction-item cursor-pointer">
                                 <p class="attraction_addr1 font-bold">${attraction.title}</p>
                                 <p class="attraction_addr1">주소 : ${attraction.addr1 || "주소 정보 없음"}</p>
                                 <img src="${attraction.firstimage || "../NoPhoto.png"}" alt="${attraction.title}" style="height: 180px"/>
